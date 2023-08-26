@@ -3,7 +3,7 @@ import { PlayIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 
 interface PlayButtonProps {
-  movieId: string;
+  movieId: number;
 }
 
 const PlayButton: React.FC<PlayButtonProps> = ({ movieId }) => {

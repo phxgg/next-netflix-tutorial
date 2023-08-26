@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["mongoDb"]
 }
 
 datasource db {
@@ -22,7 +21,7 @@ model User {
   updatedAt DateTime @updatedAt
   sessions Session[]
   accounts Account[]
-  favoriteIds String[] @db.ObjectId
+  favoriteIds Int[]
 }
 
 model Account {
@@ -59,14 +58,4 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model Movie {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String
-  videoUrl String
-  thumbnailUrl String
-  genre String
-  duration String
 }

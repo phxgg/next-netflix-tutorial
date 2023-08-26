@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prismadb from '@/libs/prismadb';
 import serverAuth from "@/libs/serverAuth";
+import yts from "@/libs/yts";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -20,13 +20,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error('Missing Id');
     }
 
-    const movies = await prismadb.movie.findUnique({
-      where: {
-        id: movieId
-      }
-    });
+    const movie = await yts.movieDetails(movieId);
+    if (movie?.status !== 'ok') {
+      throw new Error('Error fetching movie');
+    }
 
-    return res.status(200).json(movies);
+    return res.status(200).json(movie.data.movie);
   } catch (error) {
     console.log(error);
     return res.status(500).end();

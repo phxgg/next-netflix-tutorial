@@ -6,7 +6,7 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 import useFavorites from '@/hooks/useFavorites';
 
 interface FavoriteButtonProps {
-  movieId: string
+  movieId: number
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {

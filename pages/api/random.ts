@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prismadb from '@/libs/prismadb';
 import serverAuth from "@/libs/serverAuth";
+import yts from "@/libs/yts";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -10,15 +10,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await serverAuth(req, res);
 
-    const moviesCount = await prismadb.movie.count();
-    const randomIndex = Math.floor(Math.random() * moviesCount);
+    const MOVIES_COUNT = 20;
+    const randomIndex = Math.floor(Math.random() * MOVIES_COUNT);
 
-    const randomMovies = await prismadb.movie.findMany({
-      take: 1,
-      skip: randomIndex
-    });
+    const movies = await yts.listMovies();
+    if (movies?.status !== 'ok') {
+      throw new Error('Error fetching movies');
+    }
 
-    return res.status(200).json(randomMovies[0]);
+    return res.status(200).json(movies.data.movies[randomIndex]);
   } catch (error) {
     console.log(error);
 
